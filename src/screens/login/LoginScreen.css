@@ -1,0 +1,57 @@
+.login-screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-screen-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 800px;
+}
+
+.login-screen-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 34px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.login-screen-description {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.login-screen-body-signup-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.login-screen-body-signup-container-text {
+    font-family: 'Montserrat', serif;
+    font-size: 14px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.login-screen-body-signup-container-text-link {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    margin: 10px 0;
+    text-decoration: underline;
+    cursor: pointer;
+    color: #6473b7;
+}

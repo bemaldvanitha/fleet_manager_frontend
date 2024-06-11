@@ -1,0 +1,15 @@
+.custom-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 16px;
+    width: 300px;
+    cursor: pointer;
+    border: 1px solid;
+}
+
+.custom-button-text {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 18px;
+}
