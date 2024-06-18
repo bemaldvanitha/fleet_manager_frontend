@@ -1,4 +1,8 @@
 .login-screen {
+    background-image: url("/src/assets/images/background/login/login-screen-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -6,6 +10,8 @@
 }
 
 .login-screen-container {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     justify-content: center;
