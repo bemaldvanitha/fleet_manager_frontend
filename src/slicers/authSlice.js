@@ -19,6 +19,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 return response;
             }
         }),
+        register: builder.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/Register`,
+                body: data,
+                method: 'POST'
+            })
+        }),
         fetchSingleProfile: builder.query({
             query: () => ({
                 url: `${AUTH_URL}/Profile`,
@@ -31,4 +38,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
     })
 });
 
-export const { useLoginMutation, useFetchSingleProfileQuery } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchSingleProfileQuery } = authApiSlice
