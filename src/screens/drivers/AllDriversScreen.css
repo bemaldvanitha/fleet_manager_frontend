@@ -1,0 +1,29 @@
+.drivers-screen{
+    background-image: url("/src/assets/images/background/login/login-screen-background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 10px 20px;
+    height: 100vh;
+}
+
+.drivers-screen-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bolder;
+    font-size: 36px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.drivers-table-button-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.drivers-screen-table-container {
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}

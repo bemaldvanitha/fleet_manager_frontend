@@ -34,18 +34,18 @@ const LoginScreen = () => {
 
         if(mobilePhoneNumberValidity && passwordValidity){
             try{
-                const { data } = await login({
+                const res = await login({
                     password: password,
                     mobileNumber: mobileNumber
                 }).unwrap();
 
-                message.success(data?.message);
+                message.success(res?.message);
 
-                if(data?.userType === 'Admin'){
+                if(res?.userType === 'Admin'){
 
-                }else if(data?.userType === 'Fleet-Manager'){
+                }else if(res?.userType === 'Fleet-Manager'){
 
-                }else if(data?.userType === 'Driver'){
+                }else if(res?.userType === 'Driver'){
 
                 }
             }catch (err){

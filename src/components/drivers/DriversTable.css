@@ -1,0 +1,45 @@
+.drivers-table {
+    width: 90%;
+    margin: 5px 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.drivers-table-header {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 28px;
+    margin: 10px 0;
+    text-align: left;
+    color: #f0f0f0;
+}
+
+.drivers-table-row {
+    margin: 15px 0
+}
+
+.drivers-table-data {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.drivers-table-icon-container {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.drivers-table-icon {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.drivers-table-edit-icon {
+    color: #FFD700;
+}
+
+.drivers-table-delete-icon {
+    color: #ef5597;
+}
