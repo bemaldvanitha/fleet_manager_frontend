@@ -61,3 +61,9 @@
     cursor: pointer;
     color: #6473b7;
 }
+
+@media (max-width: 800px) {
+    .login-screen-container {
+        width: 90%;
+    }
+}

@@ -7,7 +7,7 @@ const DriversTable = ({ drivers }) => {
     return(
         <table className={'drivers-table'}>
             <thead>
-                <tr>
+                <tr className={'drivers-table-header-row'}>
                     <th className={'drivers-table-header'}>ID</th>
                     <th className={'drivers-table-header'}>Name</th>
                     <th className={'drivers-table-header'}>Mobile Number</th>

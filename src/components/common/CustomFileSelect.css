@@ -1,0 +1,39 @@
+.custom-file-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 650px;
+    margin: 15px 0;
+}
+
+.custom-file-label {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.custom-file-input {
+    font-family: 'Montserrat', serif;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+    color: #f0f0f0;
+}
+
+.custom-file-error {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 14px;
+    color: red;
+}
+
+@media (max-width: 700px) {
+    .custom-file-container {
+        width: 90%;
+    }
+}

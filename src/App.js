@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 
 import LoginScreen from "./screens/login/LoginScreen";
 import AllDriversScreen from "./screens/drivers/AllDriversScreen";
+import CreateDriverScreen from "./screens/drivers/CreateDriverScreen";
 import AdminRoute from "./components/routing/AdminRoute";
 
 import store from "./store";
@@ -16,7 +17,8 @@ function App() {
             <Routes>
                 <Route path={'/login'} element={<LoginScreen/>}/>
                 <Route path={''} element={<AdminRoute/>}>
-                    <Route path={'/all-drivers'} element={<AllDriversScreen/>}/>
+                    <Route path={'/drivers'} element={<AllDriversScreen/>}/>
+                    <Route path={'/drivers/create'} element={<CreateDriverScreen/>}/>
                 </Route>
             </Routes>
         </Provider>

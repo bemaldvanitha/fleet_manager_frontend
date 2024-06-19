@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ColorRing } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 
 import { useFetchAllDriversQuery } from "../../slicers/userSlice";
 import DriversTable from "../../components/drivers/DriversTable";
@@ -8,6 +9,7 @@ import CustomButton from "../../components/common/CustomButton";
 import './AllDriversScreen.css';
 
 const AllDriversScreen = () => {
+    const navigate = useNavigate();
     const [drivers, setDrivers] = useState([]);
 
     const { data: driverData, isLoading: driverIsLoading, error: driverError } = useFetchAllDriversQuery();
@@ -19,7 +21,7 @@ const AllDriversScreen = () => {
     }, [driverData]);
 
     const addDriversHandler = () => {
-
+        navigate('/drivers/create');
     }
 
     if(driverIsLoading){

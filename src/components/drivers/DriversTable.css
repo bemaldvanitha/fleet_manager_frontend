@@ -14,14 +14,18 @@
     color: #f0f0f0;
 }
 
-.drivers-table-row {
-    margin: 15px 0
+.drivers-table-row td{
+    margin: 15px 0!important;
+}
+
+.drivers-table-header-row th{
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .drivers-table-data {
     font-family: 'Montserrat', serif;
     font-size: 16px;
-    margin: 10px 0;
+    padding: 15px 0;
     color: #f0f0f0;
 }
 
