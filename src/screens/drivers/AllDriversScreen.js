@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ColorRing } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
-import { useFetchAllDriversQuery } from "../../slicers/userSlice";
+import { useAllDriversQuery, useChangeDriverStatusMutation } from "../../slicers/driverSlice";
 import DriversTable from "../../components/drivers/DriversTable";
 import CustomButton from "../../components/common/CustomButton";
 
@@ -12,7 +13,8 @@ const AllDriversScreen = () => {
     const navigate = useNavigate();
     const [drivers, setDrivers] = useState([]);
 
-    const { data: driverData, isLoading: driverIsLoading, error: driverError } = useFetchAllDriversQuery();
+    const { data: driverData, isLoading: driverIsLoading, refetch, error: driverError } = useAllDriversQuery();
+    const [changeDriverStatus, {isLoading: changeStatusIsLoading}] = useChangeDriverStatusMutation();
 
     useEffect(() => {
         if(driverData && driverData?.drivers){
@@ -20,11 +22,22 @@ const AllDriversScreen = () => {
         }
     }, [driverData]);
 
+    const changeStatus = async (id) => {
+        try{
+            const res = await changeDriverStatus(id).unwrap();
+            message.success(res?.message);
+            await refetch()
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message)
+        }
+    }
+
     const addDriversHandler = () => {
         navigate('/drivers/create');
     }
 
-    if(driverIsLoading){
+    if(driverIsLoading || changeStatusIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -41,7 +54,7 @@ const AllDriversScreen = () => {
                                   onClick={addDriversHandler}/>
                 </div>
                 <div className={'drivers-screen-table-container'}>
-                    <DriversTable drivers={drivers}/>
+                    <DriversTable drivers={drivers} changeStatus={changeStatus}/>
                 </div>
             </div>
         )

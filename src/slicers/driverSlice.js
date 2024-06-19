@@ -35,7 +35,7 @@ export const driverSlice = apiSlice.injectEndpoints({
         }),
         changeDriverStatus: builder.mutation({
             query: (id) => ({
-                url: `${DRIVER_URL}/${id}`,
+                url: `${DRIVER_URL}/Status/${id}`,
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${getToken()}`

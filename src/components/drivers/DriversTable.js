@@ -1,9 +1,11 @@
 import React from 'react';
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaInfo } from "react-icons/fa";
+
+import CustomSwitch from "../common/CustomSwitch";
 
 import './DriversTable.css';
 
-const DriversTable = ({ drivers }) => {
+const DriversTable = ({ drivers, changeStatus }) => {
     return(
         <table className={'drivers-table'}>
             <thead>
@@ -11,7 +13,7 @@ const DriversTable = ({ drivers }) => {
                     <th className={'drivers-table-header'}>ID</th>
                     <th className={'drivers-table-header'}>Name</th>
                     <th className={'drivers-table-header'}>Mobile Number</th>
-                    <th className={'drivers-table-header'}>Email</th>
+                    <th className={'drivers-table-header'}>status</th>
                     <th className={'drivers-table-header'}>Driver's Licence</th>
                     <th className={'drivers-table-header'}>Action</th>
                 </tr>
@@ -21,11 +23,12 @@ const DriversTable = ({ drivers }) => {
                     return(
                         <tr key={index} className={'drivers-table-row'}>
                             <td className={'drivers-table-data'}>{driver?.id}</td>
-                            <td className={'drivers-table-data'}>{driver?.name}</td>
+                            <td className={'drivers-table-data'}>{driver?.firstName} {driver?.lastName}</td>
                             <td className={'drivers-table-data'}>{driver?.mobileNumber}</td>
-                            <td className={'drivers-table-data'}>{driver?.email}</td>
-                            <td className={'drivers-table-data'}>{driver?.driverLicenceNumber}</td>
+                            <CustomSwitch checked={driver?.status === 'Available'} changeHandler={() => changeStatus(driver?.id)}/>
+                            <td className={'drivers-table-data'}>{driver?.licenceNumber}</td>
                             <div className={'drivers-table-icon-container'}>
+                                <FaInfo className={'drivers-table-icon drivers-table-info-icon'} onClick={() => {}}/>
                                 <FaEdit className={'drivers-table-icon drivers-table-edit-icon'} onClick={() => {}}/>
                                 <FaTrash className={'drivers-table-icon drivers-table-delete-icon'} onClick={() => {}}/>
                             </div>
