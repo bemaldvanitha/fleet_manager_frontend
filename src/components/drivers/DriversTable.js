@@ -5,7 +5,7 @@ import CustomSwitch from "../common/CustomSwitch";
 
 import './DriversTable.css';
 
-const DriversTable = ({ drivers, changeStatus }) => {
+const DriversTable = ({ drivers, changeStatus, deleteHandler }) => {
     return(
         <table className={'drivers-table'}>
             <thead>
@@ -30,7 +30,8 @@ const DriversTable = ({ drivers, changeStatus }) => {
                             <div className={'drivers-table-icon-container'}>
                                 <FaInfo className={'drivers-table-icon drivers-table-info-icon'} onClick={() => {}}/>
                                 <FaEdit className={'drivers-table-icon drivers-table-edit-icon'} onClick={() => {}}/>
-                                <FaTrash className={'drivers-table-icon drivers-table-delete-icon'} onClick={() => {}}/>
+                                <FaTrash className={'drivers-table-icon drivers-table-delete-icon'} onClick={() =>
+                                    deleteHandler(driver?.id)}/>
                             </div>
                         </tr>
                     )

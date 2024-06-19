@@ -3,7 +3,7 @@ import { ColorRing } from "react-loader-spinner";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
-import { useAllDriversQuery, useChangeDriverStatusMutation } from "../../slicers/driverSlice";
+import { useAllDriversQuery, useChangeDriverStatusMutation, useDeleteDriverMutation } from "../../slicers/driverSlice";
 import DriversTable from "../../components/drivers/DriversTable";
 import CustomButton from "../../components/common/CustomButton";
 
@@ -15,6 +15,7 @@ const AllDriversScreen = () => {
 
     const { data: driverData, isLoading: driverIsLoading, refetch, error: driverError } = useAllDriversQuery();
     const [changeDriverStatus, {isLoading: changeStatusIsLoading}] = useChangeDriverStatusMutation();
+    const [deleteDriver, {isLoading: deleteDriverIsLoading}] = useDeleteDriverMutation();
 
     useEffect(() => {
         if(driverData && driverData?.drivers){
@@ -33,11 +34,22 @@ const AllDriversScreen = () => {
         }
     }
 
+    const deleteDriverHandler = async (id) => {
+        try{
+            const res = await deleteDriver(id).unwrap();
+            message.success(res?.message);
+            await refetch()
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message)
+        }
+    }
+
     const addDriversHandler = () => {
         navigate('/drivers/create');
     }
 
-    if(driverIsLoading || changeStatusIsLoading){
+    if(driverIsLoading || changeStatusIsLoading || deleteDriverIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -54,7 +66,7 @@ const AllDriversScreen = () => {
                                   onClick={addDriversHandler}/>
                 </div>
                 <div className={'drivers-screen-table-container'}>
-                    <DriversTable drivers={drivers} changeStatus={changeStatus}/>
+                    <DriversTable drivers={drivers} changeStatus={changeStatus} deleteHandler={deleteDriverHandler}/>
                 </div>
             </div>
         )
