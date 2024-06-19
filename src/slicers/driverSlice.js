@@ -43,8 +43,8 @@ export const driverSlice = apiSlice.injectEndpoints({
             })
         }),
         updateDriver: builder.mutation({
-            query: (id, data) => ({
-                url: `${DRIVER_URL}/Update/${id}`,
+            query: (data) => ({
+                url: `${DRIVER_URL}/Update/${data?.driverId}`,
                 method: 'PATCH',
                 body: data,
                 headers: {
