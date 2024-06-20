@@ -13,6 +13,10 @@ const DriversTable = ({ drivers, changeStatus, deleteHandler }) => {
         navigate(`/drivers/edit/${id}`)
     }
 
+    const singleScreenHandler = (id) => {
+        navigate(`/drivers/${id}`);
+    }
+
     return(
         <table className={'drivers-table'}>
             <thead>
@@ -35,7 +39,8 @@ const DriversTable = ({ drivers, changeStatus, deleteHandler }) => {
                             <CustomSwitch checked={driver?.status === 'Available'} changeHandler={() => changeStatus(driver?.id)}/>
                             <td className={'drivers-table-data'}>{driver?.licenceNumber}</td>
                             <div className={'drivers-table-icon-container'}>
-                                <FaInfo className={'drivers-table-icon drivers-table-info-icon'} onClick={() => {}}/>
+                                <FaInfo className={'drivers-table-icon drivers-table-info-icon'} onClick={() =>
+                                    singleScreenHandler(driver?.id)}/>
                                 <FaEdit className={'drivers-table-icon drivers-table-edit-icon'} onClick={() =>
                                     editHandler(driver?.id)}/>
                                 <FaTrash className={'drivers-table-icon drivers-table-delete-icon'} onClick={() =>

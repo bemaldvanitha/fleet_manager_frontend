@@ -5,6 +5,7 @@ import LoginScreen from "./screens/login/LoginScreen";
 import AllDriversScreen from "./screens/drivers/AllDriversScreen";
 import CreateDriverScreen from "./screens/drivers/CreateDriverScreen";
 import EditDriverScreen from "./screens/drivers/EditDriverScreen";
+import SingleDriverScreen from "./screens/drivers/SingleDriverScreen";
 import AdminRoute from "./components/routing/AdminRoute";
 
 import store from "./store";
@@ -21,6 +22,7 @@ function App() {
                     <Route path={'/drivers'} element={<AllDriversScreen/>}/>
                     <Route path={'/drivers/create'} element={<CreateDriverScreen/>}/>
                     <Route path={'/drivers/edit/:id'} element={<EditDriverScreen/>}/>
+                    <Route path={'/drivers/:id'} element={<SingleDriverScreen/>}/>
                 </Route>
             </Routes>
         </Provider>
