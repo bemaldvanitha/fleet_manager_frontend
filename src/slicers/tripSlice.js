@@ -3,7 +3,7 @@ import { TRIP_URL } from "../configuration";
 
 const getToken = () => localStorage.getItem('token');
 
-const tripSlice = apiSlice.injectEndpoints({
+export const tripSlice = apiSlice.injectEndpoints({
    endpoints: builder => ({
        createTrip: builder.mutation({
            query: (data) => ({

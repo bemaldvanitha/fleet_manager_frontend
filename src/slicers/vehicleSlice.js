@@ -3,7 +3,7 @@ import { VEHICLE_URL } from "../configuration";
 
 const getToken = () => localStorage.getItem('token')
 
-const vehicleSlice = apiSlice.injectEndpoints({
+export const vehicleSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
         fetchAllVehicles: builder.query({
             query: () => ({

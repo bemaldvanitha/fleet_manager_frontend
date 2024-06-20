@@ -11,3 +11,5 @@ export const FILE_URL = '/api/File';
 export const VEHICLE_URL = '/api/Vehicle';
 
 export const TRIP_URL = '/api/Trip';
+
+export const FUEL_URL = '/api/Fuel';
