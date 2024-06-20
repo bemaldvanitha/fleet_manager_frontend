@@ -9,3 +9,5 @@ export const DRIVER_URL = '/api/Driver';
 export const FILE_URL = '/api/File';
 
 export const VEHICLE_URL = '/api/Vehicle';
+
+export const TRIP_URL = '/api/Trip';

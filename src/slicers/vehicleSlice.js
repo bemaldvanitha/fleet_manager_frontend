@@ -69,9 +69,19 @@ const vehicleSlice = apiSlice.injectEndpoints({
                 },
             }),
             keepUnusedDataFor: 5
+        }),
+        fetchVehicleCurrentLocation: builder.query({
+            query: (id) => ({
+                url: `${VEHICLE_URL}/Location/${id}`,
+                headers: {
+                    'Authorization': `Bearer ${getToken()}`
+                },
+            }),
+            keepUnusedDataFor: 5
         })
     })
 });
 
 export const { useFetchAllVehiclesQuery, useFetchSingleVehicleQuery, useAddVehicleMutation, useRemoveVehicleMutation,
-    useChangeVehicleAvailabilityMutation, useUpdateVehicleCertificationMutation, useFetchAvailableVehiclesQuery } = vehicleSlice;
+    useChangeVehicleAvailabilityMutation, useUpdateVehicleCertificationMutation, useFetchAvailableVehiclesQuery,
+    useFetchVehicleCurrentLocationMutation } = vehicleSlice;
