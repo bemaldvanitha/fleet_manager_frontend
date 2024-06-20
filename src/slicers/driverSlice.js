@@ -60,9 +60,18 @@ export const driverSlice = apiSlice.injectEndpoints({
                     'Authorization': `Bearer ${getToken()}`
                 }
             })
+        }),
+        fetchAvailableDrivers: builder.query({
+            query: () => ({
+                url: `${DRIVER_URL}/Available`,
+                headers: {
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            }),
+            keepUnusedDataFor: 5
         })
     })
 });
 
 export const { useAllDriversQuery, useCreateDriverMutation, useGetSingleDriverQuery, useChangeDriverStatusMutation,
-    useUpdateDriverMutation, useDeleteDriverMutation } = driverSlice;
+    useUpdateDriverMutation, useDeleteDriverMutation, useFetchAvailableDriversQuery } = driverSlice;

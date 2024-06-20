@@ -34,8 +34,18 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 }
             }),
             keepUnusedDataFor: 5
+        }),
+        resetPassword: builder.mutation({
+            query: (data) => ({
+                url: `${AUTH_URL}/Reset`,
+                method: 'POST',
+                body: data,
+                headers: {
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            })
         })
     })
 });
 
-export const { useLoginMutation, useRegisterMutation, useFetchSingleProfileQuery } = authApiSlice
+export const { useLoginMutation, useRegisterMutation, useFetchSingleProfileQuery, useResetPasswordMutation } = authApiSlice
