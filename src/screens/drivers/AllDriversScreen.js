@@ -62,7 +62,7 @@ const AllDriversScreen = () => {
                 <p className={'drivers-screen-title'}>All Drivers</p>
                 <div className={'divider'}></div>
                 <div className={'drivers-table-button-container'}>
-                    <CustomButton title={'Add Driver!'} bgColor={'transparent'} fontColor={'#f0f0f0'}
+                    <CustomButton title={'Add Driver'} bgColor={'transparent'} fontColor={'#f0f0f0'}
                                   onClick={addDriversHandler}/>
                 </div>
                 <div className={'drivers-screen-table-container'}>

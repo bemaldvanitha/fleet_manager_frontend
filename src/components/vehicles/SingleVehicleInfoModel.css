@@ -1,0 +1,29 @@
+.single-vehicle-info-box {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    grid-column-gap: 10px;
+}
+
+.single-vehicle-info-box-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.single-vehicle-info-box-desc {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.single-vehicle-all-certifications {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}

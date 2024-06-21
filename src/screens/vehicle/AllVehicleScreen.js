@@ -5,24 +5,36 @@ import { message } from "antd";
 
 import VehiclesTable from "../../components/vehicles/VehiclesTable";
 import CustomButton from "../../components/common/CustomButton";
-import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation } from "../../slicers/vehicleSlice";
+import SingleVehicleInfoModel from "../../components/vehicles/SingleVehicleInfoModel";
+import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation, useFetchSingleVehicleQuery
+    } from "../../slicers/vehicleSlice";
 
 import './AllVehicleScreen.css';
 
 const AllVehicleScreen = () => {
     const navigate = useNavigate();
     const [allVehicles, setAllVehicles] = useState();
+    const [isModelOpen, setIsModelOpen] = useState(false);
+    const [selectedVehicleId, setSelectedVehicleId] = useState('');
+    const [selectedVehicleData, setSelectedVehicleData] = useState({});
 
     const { data: allVehicleData, isLoading: allVehicleIsLoading, refetch, error: allVehicleError } = useFetchAllVehiclesQuery();
     const [changeVehicleAvailability, { isLoading: changeAvailabilityIsLoading }] = useChangeVehicleAvailabilityMutation();
     const [removeVehicle, { isLoading: removeVehicleIsLoading }] = useRemoveVehicleMutation();
-
+    const { data: singleVehicleData, isLoading: singleVehicleIsLoading, error: singleVehicleError } =
+        useFetchSingleVehicleQuery(selectedVehicleId);
 
     useEffect(() => {
         if(allVehicleData && allVehicleData?.vehicles){
             setAllVehicles(allVehicleData?.vehicles);
         }
     }, [allVehicleData]);
+
+    useEffect(() => {
+        if(singleVehicleData && singleVehicleData?.vehicle){
+            setSelectedVehicleData(singleVehicleData?.vehicle)
+        }
+    }, [singleVehicleData]);
 
     const changeAvailabilityHandler = async (id) => {
         try{
@@ -50,7 +62,18 @@ const AllVehicleScreen = () => {
         navigate('/vehicles/create');
     }
 
-    if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading){
+    const singleVehicleModelOpenHandler = (id) => {
+        setIsModelOpen(true);
+        setSelectedVehicleId(id);
+    }
+
+    const cancelSingleVehicleModel = () => {
+        setIsModelOpen(false);
+        setSelectedVehicleId('');
+        setSelectedVehicleData({});
+    }
+
+    if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading || singleVehicleIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -60,15 +83,17 @@ const AllVehicleScreen = () => {
     }else {
         return(
             <div className={'vehicle-screen'}>
-                <p className={'vehicle-screen-title'}>All Drivers</p>
+                {isModelOpen && <SingleVehicleInfoModel closeModel={cancelSingleVehicleModel} visibility={isModelOpen}
+                                                        data={selectedVehicleData}/>}
+                <p className={'vehicle-screen-title'}>All Vehicles</p>
                 <div className={'divider'}></div>
                 <div className={'vehicle-table-button-container'}>
-                    <CustomButton title={'Add Driver'} bgColor={'transparent'} fontColor={'#f0f0f0'}
+                    <CustomButton title={'Add Vehicle'} bgColor={'transparent'} fontColor={'#f0f0f0'}
                                   onClick={createVehicleNavigateHandler}/>
                 </div>
                 <div className={'vehicle-screen-table-container'}>
                     <VehiclesTable vehicles={allVehicles} changeAvailability={changeAvailabilityHandler}
-                                   removeVehicle={removeVehicleHandler}/>
+                                   removeVehicle={removeVehicleHandler} openSingleVehicle={singleVehicleModelOpenHandler}/>
                 </div>
             </div>
         )

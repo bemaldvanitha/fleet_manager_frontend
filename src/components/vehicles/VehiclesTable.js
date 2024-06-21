@@ -5,7 +5,7 @@ import CustomSwitch from "../common/CustomSwitch";
 
 import './VehiclesTable.css';
 
-const VehiclesTable = ({ vehicles, changeAvailability, removeVehicle }) => {
+const VehiclesTable = ({ vehicles, changeAvailability, removeVehicle, openSingleVehicle }) => {
     return(
         <table className={'vehicle-table'}>
             <thead>
@@ -30,7 +30,7 @@ const VehiclesTable = ({ vehicles, changeAvailability, removeVehicle }) => {
                             <CustomSwitch checked={vehicle?.status === 'Available'} changeHandler={() => changeAvailability(vehicle?.id)}/>
                         </td>
                         <div className={'vehicle-table-icon-container'}>
-                            <FaInfo className={'vehicle-table-icon vehicle-table-info-icon'} onClick={() => {}}/>
+                            <FaInfo className={'vehicle-table-icon vehicle-table-info-icon'} onClick={() => openSingleVehicle(vehicle?.id)}/>
                             <FaEdit className={'vehicle-table-icon vehicle-table-edit-icon'} onClick={() =>
                                 {}}/>
                             <FaTrash className={'vehicle-table-icon vehicle-table-delete-icon'} onClick={() =>

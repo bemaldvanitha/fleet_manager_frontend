@@ -22,6 +22,30 @@ html {
     color: white !important;
 }
 
+.custom-model .ant-modal-content {
+    background-color: black;
+    color: white;
+    border: 1px solid #f0f0f0;
+}
+
+.custom-model .ant-modal-header {
+    background-color: black;
+    border-bottom: none;
+}
+
+.custom-model .ant-modal-title {
+    color: white;
+}
+
+.custom-model .ant-modal-body {
+    background-color: black;
+}
+
+.custom-model .ant-modal-footer {
+    background-color: black;
+    border-top: none;
+}
+
 .divider {
     height: 2px;
     background-color: #f0f0f0;
