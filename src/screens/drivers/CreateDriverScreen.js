@@ -226,7 +226,7 @@ const CreateDriverScreen = () => {
                             <CustomButton title={'Next'} onClick={ handleNext } bgColor={'transparent'} fontColor={'#f0f0f0'}
                                           isSmall={true}/>
                         ) : (
-                            <CustomButton title={'Submit'} onClick={handleSubmit} className={'register-button'} bgColor={'transparent'}
+                            <CustomButton title={'Submit'} onClick={handleSubmit} bgColor={'transparent'}
                                           fontColor={'#f0f0f0'} isSmall={true}/>
                         )}
                     </div>

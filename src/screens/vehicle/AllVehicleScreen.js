@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { ColorRing } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
+import { message } from "antd";
 
 import VehiclesTable from "../../components/vehicles/VehiclesTable";
 import CustomButton from "../../components/common/CustomButton";
 import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation } from "../../slicers/vehicleSlice";
 
 import './AllVehicleScreen.css';
-import {message} from "antd";
 
 const AllVehicleScreen = () => {
+    const navigate = useNavigate();
     const [allVehicles, setAllVehicles] = useState();
 
     const { data: allVehicleData, isLoading: allVehicleIsLoading, refetch, error: allVehicleError } = useFetchAllVehiclesQuery();
@@ -44,6 +46,10 @@ const AllVehicleScreen = () => {
         }
     }
 
+    const createVehicleNavigateHandler = () => {
+        navigate('/vehicles/create');
+    }
+
     if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading){
         return (
             <div className={'loading-container'}>
@@ -58,7 +64,7 @@ const AllVehicleScreen = () => {
                 <div className={'divider'}></div>
                 <div className={'vehicle-table-button-container'}>
                     <CustomButton title={'Add Driver'} bgColor={'transparent'} fontColor={'#f0f0f0'}
-                                  onClick={() => {}}/>
+                                  onClick={createVehicleNavigateHandler}/>
                 </div>
                 <div className={'vehicle-screen-table-container'}>
                     <VehiclesTable vehicles={allVehicles} changeAvailability={changeAvailabilityHandler}
