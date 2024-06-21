@@ -52,7 +52,7 @@ export const vehicleSlice = apiSlice.injectEndpoints({
             })
         }),
         updateVehicleCertification: builder.mutation({
-            query: (id, data) => ({
+            query: ({ id, data }) => ({
                 url: `${VEHICLE_URL}/${id}`,
                 method: 'PATCH',
                 headers: {

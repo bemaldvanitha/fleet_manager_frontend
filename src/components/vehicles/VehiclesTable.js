@@ -1,11 +1,18 @@
 import React from 'react';
 import { FaEdit, FaInfo, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 import CustomSwitch from "../common/CustomSwitch";
 
 import './VehiclesTable.css';
 
 const VehiclesTable = ({ vehicles, changeAvailability, removeVehicle, openSingleVehicle }) => {
+    const navigate = useNavigate();
+
+    const editVehicleCertificateHandler = (id) => {
+        navigate(`/vehicles/edit/${id}`);
+    }
+
     return(
         <table className={'vehicle-table'}>
             <thead>
@@ -32,7 +39,7 @@ const VehiclesTable = ({ vehicles, changeAvailability, removeVehicle, openSingle
                         <div className={'vehicle-table-icon-container'}>
                             <FaInfo className={'vehicle-table-icon vehicle-table-info-icon'} onClick={() => openSingleVehicle(vehicle?.id)}/>
                             <FaEdit className={'vehicle-table-icon vehicle-table-edit-icon'} onClick={() =>
-                                {}}/>
+                                editVehicleCertificateHandler(vehicle?.id)}/>
                             <FaTrash className={'vehicle-table-icon vehicle-table-delete-icon'} onClick={() =>
                                 removeVehicle(vehicle?.id)}/>
                         </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 import './CustomFileSelect.css';
 
-const CustomFileSelect = ({ id, isError, errorMessage, title, onChangeHandle, multiple = false,
+const CustomFileSelect = ({ id, isError = false, errorMessage = '', title, onChangeHandle, multiple = false,
                               acceptType = "image/*"  }) => {
     return (
         <div className={'custom-file-container'}>
