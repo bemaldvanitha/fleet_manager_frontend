@@ -1,0 +1,46 @@
+.create-fleet-manager-screen {
+    background-image: url("/src/assets/images/background/fleet-manager/fleet-manager-background-1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-fleet-manager-screen-container {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    margin: 20px 0;
+}
+
+.create-fleet-manager-screen-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 34px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.create-fleet-manager-screen-button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 10px 0;
+}
+
+@media (max-width: 800px) {
+    .create-fleet-manager-screen-container {
+        width: 90%;
+    }
+}

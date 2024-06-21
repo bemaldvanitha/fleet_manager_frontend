@@ -14,7 +14,16 @@ export const userSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5
         }),
+        fetchAllFleetManagers: builder.query({
+            query: () => ({
+                url: `${USER_URL}/Fleet-Managers`,
+                headers: {
+                    'Authorization': `Bearer ${getToken()}`
+                }
+            }),
+            keepUnusedDataFor: 5
+        }),
     })
 });
 
-export const { useFetchAllDriversQuery } = userSlice;
+export const { useFetchAllDriversQuery, useFetchAllFleetManagersQuery } = userSlice;

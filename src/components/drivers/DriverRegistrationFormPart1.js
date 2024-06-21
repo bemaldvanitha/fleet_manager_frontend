@@ -28,9 +28,9 @@ const DriverRegistrationFormPart1 = ({ onChange, formData, isFieldError }) => {
 
     return(
         <div>
-            <CustomInput title={'Enter Driver\'s Email'} type={'email'} id={'email'} isError={isFieldError.isEmailError}
+            <CustomInput title={'Enter User\'s Email'} type={'email'} id={'email'} isError={isFieldError.isEmailError}
                          errorMessage={'Enter Valid Email'} onChangeHandle={emailChangeHandler} value={formData.email}
-                         placeholder={'Enter Driver\'s Email'}/>
+                         placeholder={'Enter User\'s Email'}/>
             <CustomInput title={'Enter Password'} value={formData.password} placeholder={'Enter Password'} type={'password'}
                          onChangeHandle={passwordChangeHandler} id={'password'} isError={isFieldError.isPasswordError}
                          errorMessage={'Enter valid password (password should more that 5 chars and must be equal)'}/>
