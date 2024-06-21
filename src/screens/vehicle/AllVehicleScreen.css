@@ -1,0 +1,29 @@
+.vehicle-screen {
+    background-image: url("/src/assets/images/background/vehicle/vehicle-background-2.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 10px 20px;
+    height: 100vh;
+}
+
+.vehicle-screen-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bolder;
+    font-size: 36px;
+    margin: 20px 0;
+    color: #f0f0f0;
+}
+
+.vehicle-table-button-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.vehicle-screen-table-container {
+    margin: 20px 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+}

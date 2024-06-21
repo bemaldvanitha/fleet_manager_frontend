@@ -1,0 +1,54 @@
+.vehicle-table {
+    width: 90%;
+    margin: 5px 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.vehicle-table-header {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 28px;
+    margin: 10px 0;
+    text-align: left;
+    color: #f0f0f0;
+}
+
+.vehicle-table-header-row th{
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.vehicle-table-row td{
+    margin: 15px 0!important;
+}
+
+.vehicle-table-data {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    padding: 15px 0;
+    color: #f0f0f0;
+}
+
+.vehicle-table-icon-container {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+
+.vehicle-table-icon {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.vehicle-table-edit-icon {
+    color: #FFD700;
+}
+
+.vehicle-table-delete-icon {
+    color: #ef5597;
+}
+
+.vehicle-table-info-icon {
+    color: #00b8f1;
+}
