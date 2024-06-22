@@ -12,6 +12,9 @@ import CreateVehicleScreen from "./screens/vehicle/CreateVehicleScreen";
 import EditVehicleScreen from "./screens/vehicle/EditVehicleScreen";
 import AllFleetManagerScreen from "./screens/fleet-manager/AllFleetManagerScreen";
 import AddFleetManagerScreen from "./screens/fleet-manager/AddFleetManagerScreen";
+import AdminOrFleetManagerRoute from "./components/routing/AdminOrFleetManagerRoute";
+import AllTripsScreen from "./screens/trips/AllTripsScreen";
+import CreateTripScreen from "./screens/trips/CreateTripScreen";
 
 import store from "./store";
 
@@ -33,6 +36,10 @@ function App() {
                     <Route path={'/vehicles/edit/:id'} element={<EditVehicleScreen/>}/>
                     <Route path={'/fleet-managers'} element={<AllFleetManagerScreen/>}/>
                     <Route path={'/fleet-managers/create'} element={<AddFleetManagerScreen/>}/>
+                </Route>
+                <Route path={''} element={<AdminOrFleetManagerRoute/>}>
+                    <Route path={'/trips'} element={<AllTripsScreen/>}/>
+                    <Route path={'/trips/create'} element={<CreateTripScreen/>}/>
                 </Route>
             </Routes>
         </Provider>

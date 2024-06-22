@@ -1,0 +1,49 @@
+.trip-table {
+    width: 90%;
+    margin: 5px 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.trip-table-header {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 28px;
+    margin: 10px 0;
+    text-align: left;
+    color: #f0f0f0;
+}
+
+.trip-table-row td{
+    margin: 15px 0!important;
+}
+
+.trip-table-header-row th{
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.trip-table-data {
+    font-family: 'Montserrat', serif;
+    font-size: 16px;
+    padding: 15px 0;
+    color: #f0f0f0;
+}
+
+.trip-table-icon-container {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+}
+
+.trip-table-icon {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.trip-table-delete-icon {
+    color: #ef5597;
+}
+
+.trip-table-info-icon {
+    color: #00b8f1;
+}
