@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import { useNavigate } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
+import axios from "axios";
 
 import CustomSelect from "../../components/common/CustomSelect";
 import CustomInput from "../../components/common/CustomInput";
@@ -7,10 +9,15 @@ import CustomFileSelect from "../../components/common/CustomFileSelect";
 import CustomButton from "../../components/common/CustomButton";
 import { useFetchAvailableDriversQuery } from "../../slicers/driverSlice";
 import { useFetchAvailableVehiclesQuery } from "../../slicers/vehicleSlice";
+import { useGeneratePresignedUrlMutation } from "../../slicers/fileSlice";
+import { useCreateTripMutation } from "../../slicers/tripSlice";
 
 import './CreateTripScreen.css';
+import {message} from "antd";
 
 const CreateTripScreen = () => {
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
        driverId: '',
        vehicleId: '',
@@ -55,6 +62,8 @@ const CreateTripScreen = () => {
 
     const { data: driversData, isLoading: fetchDriversIsLoading, error: fetchDriversError } = useFetchAvailableDriversQuery();
     const { data: vehiclesData, isLoading: fetchVehiclesIsLoading, error: fetchVehiclesError } = useFetchAvailableVehiclesQuery();
+    const [ generatePresignedUrl, { isLoading: generatePresignedUrlIsLoading } ] = useGeneratePresignedUrlMutation();
+    const [ createTrip, { isLoading: createTripIsLoading } ] = useCreateTripMutation();
 
     useEffect(() => {
         const finalVehicleList = [];
@@ -114,12 +123,67 @@ const CreateTripScreen = () => {
 
     const documentChangeHandler = (e, type) => {
         const current = formData.tripCertifications;
-        const listIdx = current.findIndex(obj => obj.certificationType === type);
-        current[listIdx].certification =  e.target.files[0];
+        const listIdx = current.findIndex(obj => obj.certificateType === type);
+        current[listIdx].certificate =  e.target.files[0];
         handleChange('tripCertifications', current);
     }
 
+    const getLatitudeLongitude = async (address) => {
+        const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+        const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`;
 
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.status === 'OK') {
+                const location = data.results[0].geometry.location;
+                return {
+                    latitude: location?.lat,
+                    longitude: location?.lng
+                };
+            } else {
+                console.log('Geocoding API error: ' + data.status);
+                return {
+                    latitude: 0,
+                    longitude: 0
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching the latitude and longitude:', error);
+            return {
+                latitude: 0,
+                longitude: 0
+            };
+        }
+    }
+
+    const filesUploadHandler = async () => {
+        const allCertifications = [];
+
+        for(let certificateObj of formData.tripCertifications){
+            const certification = certificateObj.certificate;
+            const certificationName = certification?.name;
+
+            const data = await generatePresignedUrl({
+                fileName: certificationName,
+                fileExtention: `.${certificationName.split('.').pop()}`,
+                destination: "trip"
+            }).unwrap();
+
+            await axios.put(data?.urlResponse?.preSignedUrl, certification, {
+                headers: {
+                    "Content-Type": `.${certificationName.split('.').pop()}` || "application/octet-stream",
+                },
+            });
+
+            allCertifications.push({
+                certificateType: certificateObj.certificateType,
+                certificate: data?.urlResponse?.newFileName
+            })
+        }
+        return allCertifications;
+    }
 
     const handleSubmit = async () => {
         const driverIdValidity = formData.driverId.trim().length > 5;
@@ -132,8 +196,37 @@ const CreateTripScreen = () => {
 
         if(driverIdValidity && vehicleIdValidity && startLocationValidity && endLocationValidity && cargoInsuranceValidity
             && weightCertificateValidity && customsClearanceValidity){
-            const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
+            try{
+                const { latitude: startLatitude, longitude: startLongitude } =
+                    await getLatitudeLongitude(formData.startLocation.address);
+                const { latitude: endLatitude, longitude: endLongitude } =
+                    await getLatitudeLongitude(formData.endLocation.address);
+                const allCertifications = await filesUploadHandler();
+
+                const res = await createTrip({
+                    driverId: formData.driverId,
+                    vehicleId: formData.vehicleId,
+                    startLocation: {
+                        latitude: startLatitude,
+                        longitude: startLongitude,
+                        address: formData.startLocation.address
+                    },
+                    endLocation: {
+                        latitude: endLatitude,
+                        longitude: endLongitude,
+                        address: formData.endLocation.address
+                    },
+                    certifications: allCertifications
+                }).unwrap();
+
+                message.success(res?.message);
+                navigate('/trips');
+
+            }catch (error){
+                console.log(error);
+                message.error(error?.data?.message)
+            }
         }else {
             setIsFieldError({
                 isDriverIdError: !driverIdValidity,
@@ -147,7 +240,7 @@ const CreateTripScreen = () => {
         }
     }
 
-    if(fetchVehiclesIsLoading || fetchDriversIsLoading){
+    if(fetchVehiclesIsLoading || fetchDriversIsLoading || generatePresignedUrlIsLoading || createTripIsLoading){
         return <div className={'loading-container'}>
             <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
                        wrapperClass="color-ring-wrapper"
