@@ -180,7 +180,9 @@ const SingleTripScreen = () => {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            saveCurrentLocationHandler();
+            if(!singleTrip?.endTime && singleTrip?.startTime && isDriver){
+                saveCurrentLocationHandler();
+            }
         }, 10 * 60 * 1000);
 
         return () => clearInterval(intervalId);

@@ -18,6 +18,7 @@ import CreateTripScreen from "./screens/trips/CreateTripScreen";
 import DriverRoute from "./components/routing/DriverRoute";
 import AllTripToDriver from "./screens/trips/AllTripToDriver";
 import SingleTripScreen from "./screens/trips/SingleTripScreen";
+import AddFuelRefillScreen from "./screens/fuel/AddFuelRefillScreen";
 
 import store from "./store";
 
@@ -47,6 +48,7 @@ function App() {
                 <Route path={''} element={<DriverRoute/>}>
                     <Route path={'/trips/:id'} element={<AllTripToDriver/>}/>
                     <Route path={'/trips/info/:id'} element={<SingleTripScreen/>}/>
+                    <Route path={'/fuel/create/:id'} element={<AddFuelRefillScreen/>}/>
                 </Route>
             </Routes>
         </Provider>
