@@ -3,7 +3,18 @@ import { Modal } from "antd";
 
 import './SingleVehicleInfoModel.css';
 
-const SingleVehicleInfoModel = ({ visibility, closeModel, data }) => {
+const SingleVehicleInfoModel = ({ visibility, closeModel, data, location }) => {
+
+    const mapImageUrl = () => {
+        const latitude = location?.latitude;
+        const longitude = location?.longitude;
+        const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+        const zoom = 15;
+        const size = '350x250';
+        const markers = `markers=color:red|label:A|${latitude},${longitude}`;
+        return `https://maps.googleapis.com/maps/api/staticmap?center=${latitude},${longitude}&zoom=${zoom}&size=${size}&${markers}&key=${apiKey}`;
+    };
+
     return(
         <Modal title="Single Vehicle Info" open={visibility} onOk={closeModel} onCancel={closeModel} footer={null}
                className={'custom-model'} okButtonProps={{className: 'custom-model-ok-button'}}>
@@ -33,7 +44,7 @@ const SingleVehicleInfoModel = ({ visibility, closeModel, data }) => {
             </div>
             <div className={'single-vehicle-all-certifications'}>
                 {data?.vehicleCertificates && data?.vehicleCertificates.map((certificate, index) => {
-                    return(
+                    return (
                         <div key={index} className={'single-vehicle-info-box'}>
                             <p className={'single-vehicle-info-box-title'}>{certificate?.certificateType}</p>
                             <span key={index} className={'single-vehicle-info-box'}>
@@ -44,6 +55,11 @@ const SingleVehicleInfoModel = ({ visibility, closeModel, data }) => {
                         </div>
                     )
                 })}
+            </div>
+            <img alt={'map-image'} src={mapImageUrl()}/>
+            <div className={'single-vehicle-info-box'}>
+                <p className={'single-vehicle-info-box-title'}>Location</p>
+                <p className={'single-vehicle-info-box-desc'}>{location?.address}</p>
             </div>
         </Modal>
     )

@@ -6,8 +6,8 @@ import { message } from "antd";
 import VehiclesTable from "../../components/vehicles/VehiclesTable";
 import CustomButton from "../../components/common/CustomButton";
 import SingleVehicleInfoModel from "../../components/vehicles/SingleVehicleInfoModel";
-import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation, useFetchSingleVehicleQuery
-    } from "../../slicers/vehicleSlice";
+import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation, useFetchSingleVehicleQuery,
+    useFetchVehicleCurrentLocationQuery } from "../../slicers/vehicleSlice";
 
 import './AllVehicleScreen.css';
 
@@ -17,18 +17,27 @@ const AllVehicleScreen = () => {
     const [isModelOpen, setIsModelOpen] = useState(false);
     const [selectedVehicleId, setSelectedVehicleId] = useState('');
     const [selectedVehicleData, setSelectedVehicleData] = useState({});
+    const [selectedVehicleLocation, setSelectedVehicleLocation] = useState({});
 
     const { data: allVehicleData, isLoading: allVehicleIsLoading, refetch, error: allVehicleError } = useFetchAllVehiclesQuery();
     const [changeVehicleAvailability, { isLoading: changeAvailabilityIsLoading }] = useChangeVehicleAvailabilityMutation();
     const [removeVehicle, { isLoading: removeVehicleIsLoading }] = useRemoveVehicleMutation();
     const { data: singleVehicleData, isLoading: singleVehicleIsLoading, error: singleVehicleError } =
         useFetchSingleVehicleQuery(selectedVehicleId);
+    const { data: vehicleLocationData, isLoading: vehicleLocationIsLoading, error: vehicleLocationError } =
+        useFetchVehicleCurrentLocationQuery(selectedVehicleId);
 
     useEffect(() => {
         if(allVehicleData && allVehicleData?.vehicles){
             setAllVehicles(allVehicleData?.vehicles);
         }
     }, [allVehicleData]);
+
+    useEffect(() => {
+        if(vehicleLocationData && vehicleLocationData?.lastLocation){
+            setSelectedVehicleLocation(vehicleLocationData?.lastLocation)
+        }
+    }, [vehicleLocationData]);
 
     useEffect(() => {
         if(singleVehicleData && singleVehicleData?.vehicle){
@@ -73,7 +82,8 @@ const AllVehicleScreen = () => {
         setSelectedVehicleData({});
     }
 
-    if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading || singleVehicleIsLoading){
+    if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading || singleVehicleIsLoading ||
+        vehicleLocationIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -84,7 +94,7 @@ const AllVehicleScreen = () => {
         return(
             <div className={'vehicle-screen'}>
                 {isModelOpen && <SingleVehicleInfoModel closeModel={cancelSingleVehicleModel} visibility={isModelOpen}
-                                                        data={selectedVehicleData}/>}
+                                                        data={selectedVehicleData} location={selectedVehicleLocation}/>}
                 <p className={'vehicle-screen-title'}>All Vehicles</p>
                 <div className={'divider'}></div>
                 <div className={'vehicle-table-button-container'}>
