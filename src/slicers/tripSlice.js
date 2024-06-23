@@ -35,7 +35,7 @@ export const tripSlice = apiSlice.injectEndpoints({
            })
        }),
        tripStopStart: builder.mutation({
-           query: (id, data) => ({
+           query: ({ id, data }) => ({
                url: `${TRIP_URL}/Stop/Start/${id}`,
                method: 'PATCH',
                body: data,

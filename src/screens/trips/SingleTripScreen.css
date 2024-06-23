@@ -8,6 +8,20 @@
     justify-content: center;
 }
 
+.single-trip-screen-button-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 10px 0;
+}
+
+.single-trip-screen-button-container-2 {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    padding: 10px 0;
+}
+
 .single-trip-screen-container {
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);

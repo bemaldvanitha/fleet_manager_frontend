@@ -1,25 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { ColorRing } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
+import { message } from "antd";
 
+import CustomButton from "../../components/common/CustomButton";
+import CustomInput from "../../components/common/CustomInput";
 import { useFetchSingleTripQuery, useStartTripMutation, useTripEndMutation, useTripStopStartMutation, useTripStopEndMutation,
     useSaveTripLocationMutation } from "../../slicers/tripSlice";
+import { useSaveFuelLevelMutation } from "../../slicers/fuelSlice";
+import { useFetchSingleProfileQuery } from "../../slicers/authSlice";
 
 import './SingleTripScreen.css';
-
 
 const SingleTripScreen = () => {
     const tripId = useParams().id;
 
     const [singleTrip, setSingleTrip] = useState({});
+    const [isDriver, setIsDriver] = useState(false);
+    const [fuelLevel,setFuelLevel] = useState(0);
+    const [reason,setReason] = useState('');
 
+    const { data: userData, isLoading: userIsLoading, refetch , error: userError } = useFetchSingleProfileQuery();
     const { data: singleTripData, isLoading: singleTripIsLoading, error: singleTripError } = useFetchSingleTripQuery(tripId);
+    const [ startTrip, { isLoading: startTripIsLoading }] = useStartTripMutation();
+    const [ tripEnd, { isLoading: tripEndIsLoading }] = useTripEndMutation();
+    const [ saveFuelLevel, { isLoading: saveFuelLevelIsLoading }] = useSaveFuelLevelMutation();
+    const [ tripStopStart, { isLoading: tripStopStartIsLoading } ] = useTripStopStartMutation();
+    const [ tripStopEnd, { isLoading: tripStopEndIsLoading }] = useTripStopEndMutation();
+    const [ saveTripLocation, { isLoading: saveLocationIsLoading }] = useSaveTripLocationMutation();
 
     useEffect(() => {
         if(singleTripData && singleTripData?.trip){
             setSingleTrip(singleTripData?.trip);
         }
-    }, [singleTripData]);
+
+        if(userData && userData?.userProfile?.userType === 'Driver'){
+            setIsDriver(true)
+        }
+    }, [singleTripData, userData]);
 
     const routeMapImageUrl = (originLat, originLng, destinationLat, destinationLng) => {
         const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
@@ -33,8 +51,160 @@ const SingleTripScreen = () => {
         return `https://maps.googleapis.com/maps/api/staticmap?size=${size}&markers=color:green|label:A|${origin}&markers=color:red|label:B|${destination}&path=enc:YOUR_ENCODED_POLYLINE&key=${apiKey}`;
     };
 
+    const getCurrentLocation = async () => {
+        if (!navigator.geolocation) {
+            console.error('Geolocation is not supported by this browser.');
+            return { latitude: 0, longitude: 0 };
+        }
 
-    if(singleTripIsLoading){
+        try {
+            const position = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
+
+            return {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            };
+        } catch (error) {
+            console.error('Error getting geolocation:', error.message);
+            return { latitude: 0, longitude: 0 };
+        }
+    }
+
+    const startTripHandler = async () => {
+        try{
+            const res = await saveFuelLevel({
+                vehicleId: singleTrip?.vehicleId,
+                currentLevel: fuelLevel.toString() + "%",
+                location: {
+                    latitude: singleTrip?.startLocation?.latitude,
+                    longitude: singleTrip?.startLocation?.longitude,
+                    address: singleTrip?.startLocation?.address
+                }
+            }).unwrap();
+            message.success(res?.message);
+
+            const res2 = await startTrip(tripId).unwrap();
+            message.success(res2?.message);
+
+            await refetch();
+
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message);
+        }
+    }
+
+    const endTripHandler = async () => {
+        try {
+            const res = await saveFuelLevel({
+                vehicleId: singleTrip?.vehicleId,
+                currentLevel: fuelLevel.toString() + "%",
+                location: {
+                    latitude: singleTrip?.startLocation?.latitude,
+                    longitude: singleTrip?.startLocation?.longitude,
+                    address: singleTrip?.startLocation?.address
+                }
+            }).unwrap();
+            message.success(res?.message);
+
+            const res2 = await tripEnd(tripId).unwrap();
+            message.success(res2?.message);
+
+            await refetch();
+
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message);
+        }
+    }
+
+    const getAddressFromCoordinates = async (latitude, longitude) => {
+        const apiKey = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+        const response = await fetch(
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+        );
+        const data = await response.json();
+        if (data.status === 'OK') {
+            return data.results[0].formatted_address;
+        } else {
+            return "Could not fetch address";
+        }
+    }
+
+    const startVehicleStopHandler = async () => {
+        try{
+            const { latitude, longitude } = await getCurrentLocation();
+            const address = await getAddressFromCoordinates(latitude, longitude);
+
+            const data = {
+                stopLocation: {
+                    latitude: latitude,
+                    longitude: longitude,
+                    address: address
+                },
+                reason: reason
+            };
+            let id = tripId;
+
+            const res = await tripStopStart({id, data}).unwrap();
+
+            message.success(res?.message);
+            await refetch();
+
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message);
+        }
+    }
+
+    const endVehicleStopHandler = async () => {
+        try{
+            const res = await tripStopEnd(tripId).unwrap();
+            message.success(res?.message);
+            await refetch();
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message);
+        }
+    }
+
+    const changeFuelLevelHandler = (e) => {
+        setFuelLevel(e.target.value);
+    }
+
+    const changeStopReasonHandler = (e) => {
+        setReason(e.target.value);
+    }
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            saveCurrentLocationHandler();
+        }, 10 * 60 * 1000);
+
+        return () => clearInterval(intervalId);
+    }, []);
+
+    const saveCurrentLocationHandler = async () => {
+        try{
+            const { latitude, longitude } = await getCurrentLocation();
+            const address = await getAddressFromCoordinates(latitude, longitude);
+
+            const res = await saveTripLocation({
+                latitude: latitude,
+                longitude: longitude,
+                address: address
+            }).unwrap();
+            message.success(res?.message);
+        }catch (error){
+            console.log(error);
+            message.error(error?.data?.message);
+        }
+    }
+
+    if(singleTripIsLoading || userIsLoading || startTripIsLoading || tripEndIsLoading || saveFuelLevelIsLoading ||
+        tripStopStartIsLoading || tripStopEndIsLoading || saveLocationIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -120,6 +290,33 @@ const SingleTripScreen = () => {
                             </div>
                         )
                     })}
+
+                    {isDriver && <div>
+                        <>
+                            <CustomInput title={'Enter Fuel Level'} value={fuelLevel} id={'fuelLevel'}
+                                         placeholder={'Enter Fuel Level'} onChangeHandle={changeFuelLevelHandler} type={'number'}
+                                         errorMessage={''} isError={false}/>
+                            <div className={'single-trip-screen-button-container'}>
+                                {!singleTrip?.startTime &&
+                                    <CustomButton title={'Start Trip'} isSmall={true} fontColor={'#f0f0f0'} bgColor={'transparent'}
+                                                  onClick={startTripHandler}/>}
+                                {(!singleTrip?.endTime && singleTrip?.startTime) &&
+                                    <CustomButton title={'End Trip'} isSmall={true} fontColor={'#f0f0f0'} bgColor={'transparent'}
+                                                  onClick={endTripHandler}/>}
+                            </div>
+                        </>
+                        {(!singleTrip?.endTime && singleTrip?.startTime) && <>
+                            <CustomInput title={'Enter Vehicle Stop Reason'} value={reason} id={'stopReason'}
+                                         placeholder={'Enter Vehicle Stop Reason'} onChangeHandle={changeStopReasonHandler}
+                                         type={'text'} errorMessage={''} isError={false}/>
+                            <div className={'single-trip-screen-button-container-2'}>
+                                <CustomButton title={'Start Vehicle Stop'} isSmall={true} fontColor={'#f0f0f0'}
+                                              bgColor={'transparent'} onClick={startVehicleStopHandler}/>
+                                <CustomButton title={'End Vehicle Stop'} isSmall={true} fontColor={'#f0f0f0'}
+                                              bgColor={'transparent'} onClick={endVehicleStopHandler}/>
+                            </div>
+                        </>}
+                    </div>}
                 </div>
             </div>
         )
