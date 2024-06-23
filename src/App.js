@@ -15,6 +15,9 @@ import AddFleetManagerScreen from "./screens/fleet-manager/AddFleetManagerScreen
 import AdminOrFleetManagerRoute from "./components/routing/AdminOrFleetManagerRoute";
 import AllTripsScreen from "./screens/trips/AllTripsScreen";
 import CreateTripScreen from "./screens/trips/CreateTripScreen";
+import DriverRoute from "./components/routing/DriverRoute";
+import AllTripToDriver from "./screens/trips/AllTripToDriver";
+import SingleTripScreen from "./screens/trips/SingleTripScreen";
 
 import store from "./store";
 
@@ -40,6 +43,10 @@ function App() {
                 <Route path={''} element={<AdminOrFleetManagerRoute/>}>
                     <Route path={'/trips'} element={<AllTripsScreen/>}/>
                     <Route path={'/trips/create'} element={<CreateTripScreen/>}/>
+                </Route>
+                <Route path={''} element={<DriverRoute/>}>
+                    <Route path={'/trips/:id'} element={<AllTripToDriver/>}/>
+                    <Route path={'/trips/info/:id'} element={<SingleTripScreen/>}/>
                 </Route>
             </Routes>
         </Provider>

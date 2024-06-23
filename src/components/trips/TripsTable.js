@@ -1,9 +1,16 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { FaInfo, FaTrash } from "react-icons/fa";
 
 import './TripsTable.css';
 
-const TripsTable = ({ trips, cancelTrip }) => {
+const TripsTable = ({ trips, cancelTrip, userType = 'Admin' }) => {
+    const navigate = useNavigate();
+
+    const singleTripNavigateHandler = (id) => {
+        navigate(`/trips/info/${id}`);
+    }
+
     return(
         <table className={'trip-table'}>
             <thead>
@@ -29,9 +36,9 @@ const TripsTable = ({ trips, cancelTrip }) => {
                             <td className={'trip-table-data'}>{trip?.tripStatus}</td>
                             <div className={'trip-table-icon-container'}>
                                 <FaInfo className={'trip-table-icon trip-table-info-icon'} onClick={() =>
-                                    {}}/>
-                                <FaTrash className={'trip-table-icon trip-table-delete-icon'} onClick={() =>
-                                    cancelTrip(trip?.id)}/>
+                                    singleTripNavigateHandler(trip?.id)}/>
+                                {userType !== 'Driver' && <FaTrash className={'trip-table-icon trip-table-delete-icon'} onClick={() =>
+                                    cancelTrip(trip?.id)}/>}
                             </div>
                         </tr>
                     )

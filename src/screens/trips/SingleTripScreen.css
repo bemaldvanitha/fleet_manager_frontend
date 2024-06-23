@@ -1,0 +1,98 @@
+.single-trip-screen {
+    background-image: url("/src/assets/images/background/trip/single-trip-background-1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.single-trip-screen-container {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border: 1px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 15px 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 800px;
+    margin: 20px 0;
+}
+
+.single-trip-screen-box {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    grid-column-gap: 10px;
+}
+
+.single-trip-screen-box-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.single-trip-screen-box-desc {
+    font-family: 'Montserrat', serif;
+    font-size: 14px;
+    margin: 10px 0;
+    color: #f0f0f0;
+}
+
+.single-trip-screen-sub-title {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 10px 0;
+    color: #f0f0f0;
+    text-align: center;
+}
+
+.single-trip-screen-table {
+    width: 100%;
+    margin: 5px 20px;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.single-trip-screen-table-header {
+    font-family: 'Montserrat', serif;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 10px 0;
+    text-align: left;
+    color: #f0f0f0;
+}
+
+.single-trip-screen-table-data {
+    font-family: 'Montserrat', serif;
+    font-size: 14px;
+    padding: 15px 0;
+    color: #f0f0f0;
+}
+
+@media (max-width: 800px) {
+    .single-trip-screen-container {
+        width: 90%;
+    }
+
+    .single-trip-screen-table {
+        margin: 0;
+        border-spacing: 0 5px;
+    }
+
+    .single-trip-screen-table-header {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    .single-trip-screen-table-data {
+        font-size: 10px;
+        padding: 10px 0;
+    }
+}
