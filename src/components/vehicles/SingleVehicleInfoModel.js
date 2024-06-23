@@ -3,7 +3,8 @@ import { Modal } from "antd";
 
 import './SingleVehicleInfoModel.css';
 
-const SingleVehicleInfoModel = ({ visibility, closeModel, data, location }) => {
+const SingleVehicleInfoModel = ({ visibility, closeModel, data, location, fuelRefills, fuelLevels }) => {
+    console.log(fuelLevels)
 
     const mapImageUrl = () => {
         const latitude = location?.latitude;
@@ -61,6 +62,44 @@ const SingleVehicleInfoModel = ({ visibility, closeModel, data, location }) => {
                 <p className={'single-vehicle-info-box-title'}>Location</p>
                 <p className={'single-vehicle-info-box-desc'}>{location?.address}</p>
             </div>
+            <table className={'single-vehicle-screen-table'}>
+                <thead>
+                <tr>
+                    <th className={'single-vehicle-screen-table-header'}>Fuel Amount</th>
+                    <th className={'single-vehicle-screen-table-header'}>Fuel Cost</th>
+                    <th className={'single-vehicle-screen-table-header'}>Address</th>
+                </tr>
+                </thead>
+                <tbody>
+                {fuelRefills && fuelRefills.map((refill, index) => {
+                    return (
+                        <tr key={index}>
+                            <td className={'single-vehicle-table-data'}>{refill?.fuelAmount}</td>
+                            <td className={'single-vehicle-table-data'}>{refill?.cost}</td>
+                            <td className={'single-vehicle-table-data'}>{refill?.location?.address}</td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
+            <table className={'single-vehicle-screen-table'}>
+                <thead>
+                    <tr>
+                        <th className={'single-vehicle-screen-table-header'}>Fuel Level</th>
+                        <th className={'single-vehicle-screen-table-header'}>Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {fuelLevels && fuelLevels.map((level, index) => {
+                        return (
+                            <tr key={index}>
+                                <td className={'single-vehicle-table-data'}>{level?.currentLevel}</td>
+                                <td className={'single-vehicle-table-data'}>{level?.location?.address}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
         </Modal>
     )
 }
