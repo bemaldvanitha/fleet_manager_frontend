@@ -149,8 +149,9 @@ const AddMaintenanceScreen = () => {
                                          type={'text'} title={'Enter Vehicle Part Name'} placeholder={'Enter vehicle part name'}
                                          onChangeHandle={(e) => vehiclePartNameChangeHandler(e, index) }/>
                             <CustomInput value={formData.vehicleParts[index].cost} placeholder={'Enter vehicle part cost'}
-                                         onChangeHandle={vehiclePartCostChangeHandler} id={'vehiclePartCost'} type={'number'}
-                                         title={'Enter Vehicle Part Cost'} isError={isFieldError.isVehiclePartsError[index].isCostError}
+                                         onChangeHandle={(e) => vehiclePartCostChangeHandler(e, index)} id={'vehiclePartCost'}
+                                         type={'number'} title={'Enter Vehicle Part Cost'}
+                                         isError={isFieldError.isVehiclePartsError[index].isCostError}
                                          errorMessage={'Please Enter Valid Part COst'}/>
                         </div>
                     })}

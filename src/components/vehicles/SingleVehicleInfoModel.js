@@ -3,7 +3,8 @@ import { Modal } from "antd";
 
 import './SingleVehicleInfoModel.css';
 
-const SingleVehicleInfoModel = ({ visibility, closeModel, data, location, fuelRefills, fuelLevels }) => {
+const SingleVehicleInfoModel = ({ visibility, closeModel, data, location, fuelRefills, fuelLevels, vehicleMaintenances }) => {
+    console.log(vehicleMaintenances)
 
     const mapImageUrl = () => {
         const latitude = location?.latitude;
@@ -83,20 +84,43 @@ const SingleVehicleInfoModel = ({ visibility, closeModel, data, location, fuelRe
             </table>
             <table className={'single-vehicle-screen-table'}>
                 <thead>
+                <tr>
+                    <th className={'single-vehicle-screen-table-header'}>Fuel Level</th>
+                    <th className={'single-vehicle-screen-table-header'}>Address</th>
+                </tr>
+                </thead>
+                <tbody>
+                {fuelLevels && fuelLevels.map((level, index) => {
+                    return (
+                        <tr key={index}>
+                            <td className={'single-vehicle-table-data'}>{level?.currentLevel}</td>
+                            <td className={'single-vehicle-table-data'}>{level?.location?.address}</td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
+            <table className={'single-vehicle-screen-table'}>
+                <thead>
                     <tr>
-                        <th className={'single-vehicle-screen-table-header'}>Fuel Level</th>
-                        <th className={'single-vehicle-screen-table-header'}>Address</th>
+                        <th className={'single-vehicle-screen-table-header'}>Maintenance Type</th>
+                        <th className={'single-vehicle-screen-table-header'}>Total Cost</th>
+                        <th className={'single-vehicle-screen-table-header'}>Is Regular</th>
+                        <th className={'single-vehicle-screen-table-header'}>Vehicle Parts</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {fuelLevels && fuelLevels.map((level, index) => {
-                        return (
-                            <tr key={index}>
-                                <td className={'single-vehicle-table-data'}>{level?.currentLevel}</td>
-                                <td className={'single-vehicle-table-data'}>{level?.location?.address}</td>
-                            </tr>
-                        )
-                    })}
+                {vehicleMaintenances && vehicleMaintenances.map((maintenance, index) => {
+                    return (
+                        <tr key={index}>
+                            <td className={'single-vehicle-table-data'}>{maintenance?.maintenanceType}</td>
+                            <td className={'single-vehicle-table-data'}>{maintenance?.totalCost}</td>
+                            <td className={'single-vehicle-table-data'}>{maintenance?.isRegular}</td>
+                            <td className={'single-vehicle-table-data'}>{maintenance?.maintenanceParts &&
+                                maintenance.maintenanceParts.map((part, idx) => <span>{part?.partName}</span>)}</td>
+                        </tr>
+                    )
+                })}
                 </tbody>
             </table>
         </Modal>

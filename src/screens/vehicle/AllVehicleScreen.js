@@ -9,6 +9,7 @@ import SingleVehicleInfoModel from "../../components/vehicles/SingleVehicleInfoM
 import { useFetchAllVehiclesQuery, useChangeVehicleAvailabilityMutation, useRemoveVehicleMutation, useFetchSingleVehicleQuery,
     useFetchVehicleCurrentLocationQuery } from "../../slicers/vehicleSlice";
 import { useFetchLatestFuelLevelToVehicleQuery, useFetchRefillToVehicleQuery } from "../../slicers/fuelSlice";
+import { useFetchMaintenanceToVehicleQuery } from "../../slicers/maintenanceSlice";
 
 import './AllVehicleScreen.css';
 
@@ -21,6 +22,7 @@ const AllVehicleScreen = () => {
     const [selectedVehicleLocation, setSelectedVehicleLocation] = useState({});
     const [selectedVehicleFuelLevels, setSelectedVehicleFuelLevels] = useState([]);
     const [selectedVehicleFuelRefills, setSelectedVehicleFuelRefills] = useState([]);
+    const [selectedVehicleMaintenances, setSelectedVehicleMaintenances] = useState([]);
 
     const { data: allVehicleData, isLoading: allVehicleIsLoading, refetch, error: allVehicleError } = useFetchAllVehiclesQuery();
     const [changeVehicleAvailability, { isLoading: changeAvailabilityIsLoading }] = useChangeVehicleAvailabilityMutation();
@@ -33,6 +35,8 @@ const AllVehicleScreen = () => {
         useFetchLatestFuelLevelToVehicleQuery(selectedVehicleId);
     const { data: vehicleFuelRefillData, isLoading: vehicleFuelRefillIsLoading, error: vehicleFuelRefillError } =
         useFetchRefillToVehicleQuery(selectedVehicleId);
+    const { data: vehicleMaintenanceData, isLoading: vehicleMaintenanceIsLoading, error: vehicleMaintenanceError } =
+        useFetchMaintenanceToVehicleQuery(selectedVehicleId);
 
     useEffect(() => {
         if(allVehicleData && allVehicleData?.vehicles){
@@ -63,6 +67,12 @@ const AllVehicleScreen = () => {
             setSelectedVehicleData(singleVehicleData?.vehicle)
         }
     }, [singleVehicleData]);
+
+    useEffect(() => {
+        if(vehicleMaintenanceData && vehicleMaintenanceData?.maintenances){
+            setSelectedVehicleMaintenances(vehicleMaintenanceData?.maintenances);
+        }
+    }, [vehicleMaintenanceData]);
 
     const changeAvailabilityHandler = async (id) => {
         try{
@@ -102,7 +112,7 @@ const AllVehicleScreen = () => {
     }
 
     if(allVehicleIsLoading || changeAvailabilityIsLoading || removeVehicleIsLoading || singleVehicleIsLoading ||
-        vehicleLocationIsLoading || vehicleFuelLevelIsLoading){
+        vehicleLocationIsLoading || vehicleFuelLevelIsLoading || vehicleFuelRefillIsLoading || vehicleMaintenanceIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
@@ -114,7 +124,8 @@ const AllVehicleScreen = () => {
             <div className={'vehicle-screen'}>
                 {isModelOpen && <SingleVehicleInfoModel closeModel={cancelSingleVehicleModel} visibility={isModelOpen}
                             data={selectedVehicleData} location={selectedVehicleLocation} fuelRefills={selectedVehicleFuelRefills}
-                                                        fuelLevels={selectedVehicleFuelLevels}/>}
+                                                        fuelLevels={selectedVehicleFuelLevels}
+                                                        vehicleMaintenances={selectedVehicleMaintenances}/>}
                 <p className={'vehicle-screen-title'}>All Vehicles</p>
                 <div className={'divider'}></div>
                 <div className={'vehicle-table-button-container'}>
