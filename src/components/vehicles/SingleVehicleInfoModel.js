@@ -4,7 +4,6 @@ import { Modal } from "antd";
 import './SingleVehicleInfoModel.css';
 
 const SingleVehicleInfoModel = ({ visibility, closeModel, data, location, fuelRefills, fuelLevels, vehicleMaintenances }) => {
-    console.log(vehicleMaintenances)
 
     const mapImageUrl = () => {
         const latitude = location?.latitude;
