@@ -21,6 +21,7 @@ import SingleTripScreen from "./screens/trips/SingleTripScreen";
 import AddFuelRefillScreen from "./screens/fuel/AddFuelRefillScreen";
 import AddMaintenanceScreen from "./screens/maintenance/AddMaintenanceScreen";
 import AllFuelRefillsScreen from "./screens/fuel/AllFuelRefillsScreen";
+import AllMaintenanceScreen from "./screens/maintenance/AllMaintenanceScreen";
 
 import store from "./store";
 
@@ -47,6 +48,7 @@ function App() {
                     <Route path={'/trips'} element={<AllTripsScreen/>}/>
                     <Route path={'/trips/create'} element={<CreateTripScreen/>}/>
                     <Route path={'/fuel'} element={<AllFuelRefillsScreen/>}/>
+                    <Route path={'/maintenance'} element={<AllMaintenanceScreen/>}/>
                 </Route>
                 <Route path={''} element={<DriverRoute/>}>
                     <Route path={'/trips/:id'} element={<AllTripToDriver/>}/>

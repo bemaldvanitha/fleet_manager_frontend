@@ -27,7 +27,7 @@ const AllFuelRefillsScreen = () => {
     }else {
         return(
             <div className={'all-fuel-refills-screen'}>
-                <p className={'all-fuel-refills-screen-title'}>All Trips</p>
+                <p className={'all-fuel-refills-screen-title'}>All Fuel Refills</p>
                 <div className={'divider'}></div>
                 <div className={'all-fuel-refills-screen-table-container'}>
                     <FuelRefillsTable fuelRefills={fuelRefills}/>
