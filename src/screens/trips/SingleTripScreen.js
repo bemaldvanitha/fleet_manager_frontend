@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ColorRing } from "react-loader-spinner";
 import { useParams } from "react-router-dom";
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import CustomButton from "../../components/common/CustomButton";
 import CustomInput from "../../components/common/CustomInput";
@@ -14,6 +15,7 @@ import './SingleTripScreen.css';
 
 const SingleTripScreen = () => {
     const tripId = useParams().id;
+    const navigate = useNavigate();
 
     const [singleTrip, setSingleTrip] = useState({});
     const [isDriver, setIsDriver] = useState(false);
@@ -205,6 +207,14 @@ const SingleTripScreen = () => {
         }
     }
 
+    const fuelRefillNavigateHandler = () => {
+        navigate(`/fuel/create/${singleTrip?.vehicleId}`);
+    }
+
+    const maintenanceNavigateHandler = () => {
+        navigate(`/maintenance/create/${singleTrip?.vehicleId}`);
+    }
+
     if(singleTripIsLoading || userIsLoading || startTripIsLoading || tripEndIsLoading || saveFuelLevelIsLoading ||
         tripStopStartIsLoading || tripStopEndIsLoading || saveLocationIsLoading){
         return (
@@ -217,6 +227,12 @@ const SingleTripScreen = () => {
         return(
             <div className={'single-trip-screen'}>
                 <div className={'single-trip-screen-container'}>
+                    <div className={'single-trip-screen-button-container-2'}>
+                        <CustomButton title={'Fuel Refill'} bgColor={'transparent'} onClick={fuelRefillNavigateHandler}
+                                      fontColor={'#f0f0f0'} isSmall={true}/>
+                        <CustomButton title={'Vehicle Maintenance'} bgColor={'transparent'} onClick={maintenanceNavigateHandler}
+                                      fontColor={'#f0f0f0'} isSmall={true}/>
+                    </div>
                     <img
                         src={routeMapImageUrl(singleTrip?.startLocation?.latitude, singleTrip?.startLocation?.longitude,
                             singleTrip?.endLocation?.latitude, singleTrip?.endLocation?.longitude)}/>

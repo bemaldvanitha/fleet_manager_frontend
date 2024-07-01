@@ -141,7 +141,7 @@ const CustomNavbar = ({ userType, userId = '' }) => {
 
                 {userType === 'Admin' && <div className={`menu-item ${selectedMenuItem === 4 ? 'selected-menu-item' :
                     'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(4)}>
-                    <Tooltip title={'Vehicles'} placement={'right'}>
+                    <Tooltip title={'Drivers'} placement={'right'}>
                         {selectedMenuItem === 4 ?
                             <Image src={driverSelect} className={'menu-icon-select'} preview={false}/> :
                             <Image src={driverNotSelect} className={'menu-icon'} preview={false}/>}
@@ -150,7 +150,7 @@ const CustomNavbar = ({ userType, userId = '' }) => {
 
                 {userType === 'Admin' && <div className={`menu-item ${selectedMenuItem === 5 ? 'selected-menu-item' :
                     'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(5)}>
-                    <Tooltip title={'Vehicles'} placement={'right'}>
+                    <Tooltip title={'Fleet Manager'} placement={'right'}>
                         {selectedMenuItem === 5 ?
                             <Image src={managerSelect} className={'menu-icon-select'} preview={false}/> :
                             <Image src={managerNotSelect} className={'menu-icon'} preview={false}/>}
@@ -159,7 +159,7 @@ const CustomNavbar = ({ userType, userId = '' }) => {
 
                 {userType === 'Driver' && <div className={`menu-item ${selectedMenuItem === 6 ? 'selected-menu-item' :
                     'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(6)}>
-                    <Tooltip title={'Vehicles'} placement={'right'}>
+                    <Tooltip title={'Trips'} placement={'right'}>
                         {selectedMenuItem === 6 ?
                             <Image src={tripSelect} className={'menu-icon-select'} preview={false}/> :
                             <Image src={tripNotSelect} className={'menu-icon'} preview={false}/>}
