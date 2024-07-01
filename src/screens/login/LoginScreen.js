@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ColorRing } from 'react-loader-spinner';
 import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 
 import CustomInput from "../../components/common/CustomInput";
 import CustomButton from "../../components/common/CustomButton";
@@ -9,6 +10,8 @@ import { useLoginMutation } from "../../slicers/authSlice";
 import './LoginScreen.css';
 
 const LoginScreen = () => {
+    const navigate = useNavigate();
+
     const [mobileNumber, setMobileNumber] = useState('');
     const [password, setPassword] = useState('');
 
@@ -44,7 +47,7 @@ const LoginScreen = () => {
                 if(res?.userType === 'Admin'){
 
                 }else if(res?.userType === 'Fleet-Manager'){
-
+                    navigate('/trips');
                 }else if(res?.userType === 'Driver'){
 
                 }
