@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 import CustomInput from "../../components/common/CustomInput";
 import CustomButton from "../../components/common/CustomButton";
-import { useLoginMutation } from "../../slicers/authSlice";
+import { useFetchSingleProfileQuery, useLoginMutation } from "../../slicers/authSlice";
+import { useFetchDriverIdToUserIdQuery } from "../../slicers/driverSlice";
 
 import './LoginScreen.css';
 
@@ -19,6 +20,9 @@ const LoginScreen = () => {
     const [passwordError, setPasswordError] = useState(false);
 
     const [login, { isLoading }] = useLoginMutation();
+    const { data: userData, isLoading: userIsLoading, error: userError } = useFetchSingleProfileQuery();
+    const { data: driverData, isLoading: driverIsLoading, error: driverError } =
+        useFetchDriverIdToUserIdQuery(userData?.userProfile?.id);
 
     const mobileNumberChangeHandler = (e) => {
         setMobileNumber(e.target.value);
@@ -49,7 +53,7 @@ const LoginScreen = () => {
                 }else if(res?.userType === 'Fleet-Manager'){
                     navigate('/trips');
                 }else if(res?.userType === 'Driver'){
-
+                    navigate(`/trips/${driverData?.driverId}`);
                 }
             }catch (err){
                 console.log(err);
@@ -65,7 +69,7 @@ const LoginScreen = () => {
 
     }
 
-    if(isLoading){
+    if(isLoading || driverIsLoading || userIsLoading){
         return (
             <div className={'loading-container'}>
                 <ColorRing visible={true} height="80" width="80" ariaLabel="color-ring-loading" wrapperStyle={{}}
