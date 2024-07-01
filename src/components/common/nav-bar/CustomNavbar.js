@@ -11,6 +11,12 @@ import fuelNotSelect from '../../../assets/images/logo/fuel-not-select.svg';
 import maintenanceSelect from '../../../assets/images/logo/maintenance-select.svg';
 import maintenanceNotSelect from '../../../assets/images/logo/maintenance-not-select.svg';
 import logout from '../../../assets/images/logo/logout.svg';
+import driverSelect from '../../../assets/images/logo/driver-select.svg';
+import driverNotSelect from '../../../assets/images/logo/driver-not-select.svg';
+import vehicleSelect from '../../../assets/images/logo/vehicle-select.svg';
+import vehicleNotSelect from '../../../assets/images/logo/vehicle-not-select.svg';
+import managerSelect from '../../../assets/images/logo/manager-select.svg';
+import managerNotSelect from '../../../assets/images/logo/manager-not-select.svg';
 
 const CustomNavbar = ({ userType }) => {
     const navigate = useNavigate();
@@ -33,6 +39,33 @@ const CustomNavbar = ({ userType }) => {
             case '/maintenance':
                 setSelectedMenuItem(2);
                 break;
+            case '/vehicles':
+                setSelectedMenuItem(3);
+                break;
+            case '/vehicles/create':
+                setSelectedMenuItem(3);
+                break;
+            case '/vehicles/edit/:id':
+                setSelectedMenuItem(3);
+                break;
+            case '/drivers':
+                setSelectedMenuItem(4);
+                break;
+            case '/drivers/create':
+                setSelectedMenuItem(4);
+                break;
+            case '/drivers/edit/:id':
+                setSelectedMenuItem(4);
+                break;
+            case '/drivers/:id':
+                setSelectedMenuItem(4);
+                break;
+            case '/fleet-managers':
+                setSelectedMenuItem(5);
+                break;
+            case '/fleet-managers/create':
+                setSelectedMenuItem(5);
+                break;
         }
     }, []);
 
@@ -44,6 +77,12 @@ const CustomNavbar = ({ userType }) => {
             navigate('/fuel');
         }else if(itemIdx === 2){
             navigate('/maintenance');
+        }else if(itemIdx === 3){
+            navigate('/vehicles');
+        }else if(itemIdx === 4){
+            navigate('/drivers');
+        }else if(itemIdx === 5){
+            navigate('/fleet-managers');
         }
     }
 
@@ -79,6 +118,33 @@ const CustomNavbar = ({ userType }) => {
                             <Image src={maintenanceNotSelect} className={'menu-icon'} preview={false}/>}
                     </Tooltip>
                 </div>
+                {userType === 'Admin' && <div className={`menu-item ${selectedMenuItem === 3 ? 'selected-menu-item' : 
+                    'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(3)}>
+                    <Tooltip title={'Vehicles'} placement={'right'}>
+                        {selectedMenuItem === 3 ?
+                            <Image src={vehicleSelect} className={'menu-icon-select'} preview={false}/> :
+                            <Image src={vehicleNotSelect} className={'menu-icon'} preview={false}/>}
+                    </Tooltip>
+                </div>}
+
+                {userType === 'Admin' && <div className={`menu-item ${selectedMenuItem === 4 ? 'selected-menu-item' :
+                    'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(4)}>
+                    <Tooltip title={'Vehicles'} placement={'right'}>
+                        {selectedMenuItem === 4 ?
+                            <Image src={driverSelect} className={'menu-icon-select'} preview={false}/> :
+                            <Image src={driverNotSelect} className={'menu-icon'} preview={false}/>}
+                    </Tooltip>
+                </div>}
+
+                {userType === 'Admin' && <div className={`menu-item ${selectedMenuItem === 5 ? 'selected-menu-item' :
+                    'not-selected-menu-item'}`} onClick={() => handleMenuItemClick(5)}>
+                    <Tooltip title={'Vehicles'} placement={'right'}>
+                        {selectedMenuItem === 5 ?
+                            <Image src={managerSelect} className={'menu-icon-select'} preview={false}/> :
+                            <Image src={managerNotSelect} className={'menu-icon'} preview={false}/>}
+                    </Tooltip>
+                </div>}
+
                 <div className={`menu-item`} onClick={logoutHandler}>
                     <Tooltip title={'Logout'} placement={'right'}>
                         <Image src={logout} className={'menu-icon-select'} preview={false}/>

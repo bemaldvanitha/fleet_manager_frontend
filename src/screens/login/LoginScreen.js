@@ -45,7 +45,7 @@ const LoginScreen = () => {
                 message.success(res?.message);
 
                 if(res?.userType === 'Admin'){
-
+                    navigate('/vehicles');
                 }else if(res?.userType === 'Fleet-Manager'){
                     navigate('/trips');
                 }else if(res?.userType === 'Driver'){
